@@ -1,0 +1,19 @@
+{
+  "name": "shepherd",
+  "version": "1.0.0",
+  "scripts": {
+    "prestart": "rm -rf dist && mkdir dist && cp src/index.html dist",
+    "start": "webpack-dev-server --env.dev --content-base dist && open http://localhost:8080"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.6.9",
+    "babel-core": "^6.17.0",
+    "babel-loader": "^6.2.5",
+    "babel-preset-es2015": "^6.16.0",
+    "elm-webpack-loader": "^3.0.6",
+    "html-loader": "^0.4.4",
+    "json-loader": "^0.5.4",
+    "webpack": "beta",
+    "webpack-dev-server": "beta"
+  }
+}
