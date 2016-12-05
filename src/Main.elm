@@ -1,8 +1,8 @@
 module Main exposing (..)
 
-import Html exposing (Html)
+import Html exposing (Html, Attribute)
 import Html.Attributes exposing (type_)
-import Html.Events exposing (onClick, onBlur)
+import Html.Events exposing (onClick, onInput, on)
 
 
 -- Model
@@ -20,10 +20,16 @@ type alias Hole =
     }
 
 
+type alias Player =
+    { score : Int
+    }
+
+
 type alias Model =
     { currentHole : Int
     , course : List Hole
     , score : Int
+    , players : List Player
     }
 
 
@@ -56,7 +62,7 @@ course =
 init : ( Model, Cmd Msg )
 init =
     -- { currentHole = 0, score = 0 }
-    ( Model 0 course 0, Cmd.none )
+    ( Model 0 course 0 [], Cmd.none )
 
 
 
@@ -67,7 +73,7 @@ type Msg
     = Birdie
     | Par
     | Bogey
-    | UpdateScore Hole
+    | UpdateScore Hole String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -82,12 +88,8 @@ update msg model =
         Bogey ->
             ( { model | currentHole = model.currentHole + 1, score = model.score + 1 }, Cmd.none )
 
-        UpdateScore hole ->
-            let
-                log =
-                    Debug.log "hole" hole
-            in
-                ( model, Cmd.none )
+        UpdateScore hole score ->
+            ( model, Cmd.none )
 
 
 
@@ -105,7 +107,11 @@ subscriptions model =
 
 renderScore : Hole -> Html Msg
 renderScore hole =
-    Html.td [] [ Html.input [ type_ "number", onBlur (UpdateScore hole) ] [] ]
+    Html.td [] [ Html.input [ type_ "number", onInput (UpdateScore hole) ] [] ]
+
+
+
+-- Html.td [] [ Html.input [ type_ "number", onInput (UpdateScore hole) ] [] ]
 
 
 renderHoleNum : Hole -> Html Msg
